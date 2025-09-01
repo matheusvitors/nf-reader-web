@@ -1,3 +1,5 @@
+export * from './icon-button'
 export * from './item-list'
 export * from './loading'
+export * from './modal'
 export * from './page-loading'

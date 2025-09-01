@@ -5,34 +5,32 @@ import { MoonIcon, SunIcon } from '@phosphor-icons/react';
 import { Notify } from 'notiflix';
 import { NotaFiscal } from '@/interfaces';
 import { listNotasFiscais } from '@/services';
-import { PageLoading } from '@/components';
+import { ItemList, PageLoading } from '@/components';
+import { useQuery } from '@tanstack/react-query';
+import { Edicao } from '@/pages/edicao';
 
 export const HomePage: React.FC = () => {
 
 	const { theme: systemTheme, changeTheme } = useSystemTheme();
 	const theme = useTheme();
+		const {
+		data: notasFiscais,
+		isFetching,
+		error
+	} = useQuery<NotaFiscal[]>({
+		queryKey: ["notasFiscais"],
+		queryFn: listNotasFiscais,
+	});
 
-	const [notasFiscais, setNotasFiscais] = useState<NotaFiscal[]>([]);
-	const [isLoading, setIsLoading] = useState(false)
+	const [editing, setEditing] = useState(false);
+	const [selectedNotaFiscal, setselectedNotaFiscal] = useState<NotaFiscal | null>(null);
+
+	useEffect(() => {
+		error && Notify.failure(error?.message);
+	}, [error])
 
 	const iconProps = {
 		size: 30
-	}
-
-	useEffect(() => {
-		getNotasFiscais();
-	}, [])
-
-	const getNotasFiscais = async () => {
-		try {
-			setIsLoading(true);
-			const data = await listNotasFiscais();
-			data && setNotasFiscais(data);
-		} catch (error: any) {
-			Notify.failure(error.message, {position: 'right-bottom'});
-		} finally {
-			setIsLoading(false);
-		}
 	}
 
 	return (
@@ -48,8 +46,10 @@ export const HomePage: React.FC = () => {
 				</Side>
 			</Header>
 			<Content>
-				{isLoading && <PageLoading visible={isLoading} />}
+				{isFetching && <PageLoading visible={isFetching} />}
+				{!isFetching && notasFiscais && notasFiscais.length > 0 && notasFiscais.map(notafiscal => <ItemList item={notafiscal} key={notafiscal.id} setEditing={setEditing} setSelected={setselectedNotaFiscal}  />)}
 			</Content>
+			{selectedNotaFiscal && editing && <Edicao notaFiscal={selectedNotaFiscal} setIsVisible={setEditing} /> }
 		</Container>
 	);
 }
@@ -103,6 +103,8 @@ const Content = styled.div`
 	align-items: center;
 	justify-content: flex-start;
 	flex-direction: column;
+
+	gap: 15px;
 
 	transition: width 0.5s ease;
 

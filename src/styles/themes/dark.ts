@@ -1,6 +1,6 @@
 import { DefaultTheme } from "styled-components"
 
-const primary = '#194bf1ff'
+const primary = '#5b7decff'
 const secondary = '#D9ED92'
 const accent = '#93938C'
 const black = '#0d0d0d'

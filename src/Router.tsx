@@ -1,6 +1,6 @@
-import { HomePage } from "@/home-page";
 import React from "react";
 import { Routes, Route } from "react-router";
+import { HomePage } from "@/pages";
 
 export const Router: React.FC = () => {
 	return (
