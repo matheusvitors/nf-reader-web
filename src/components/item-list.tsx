@@ -29,7 +29,7 @@ export const ItemList: React.FC<ItemListProps> = ({ item, setEditing, setSelecte
 		<Container>
 			<Informations>
 				<Info>{new Date(item.data).toLocaleDateString()}</Info>
-				<Info>{item.description.length > 60 ? item.description.slice(60) + '...' : item.description}</Info>
+				<Info>{item.description && item.description.length > 60 ? item.description.slice(60) + '...' : item.description}</Info>
 				<Info>{item.link}</Info>
 			</Informations>
 			<Actions>
