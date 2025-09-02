@@ -1,5 +1,5 @@
 export interface NotaFiscal {
-	id?: string;
+	id: string;
 	description: string;
 	link: string;
 	data: string;

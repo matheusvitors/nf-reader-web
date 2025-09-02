@@ -2,6 +2,7 @@ import React, { PropsWithChildren } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { XIcon } from '@phosphor-icons/react';
 import { hexToRGBA } from "about-colors-js";
+import { IconButton } from '@/components/icon-button';
 
 interface ModalProps extends PropsWithChildren {
 	title: string;
@@ -17,7 +18,7 @@ export const Modal: React.FC<ModalProps> = ({title, setIsClose, children}) => {
 			<Card>
 				<Header>
 					<PageName>{title}</PageName>
-					<XIcon onClick={() => setIsClose(false)} color={theme.colors.warning} />
+					<IconButton Icon={XIcon} size={28} onPress={() => setIsClose(false)} color='#550d0d' hoverColor={theme.colors.warning} />
 				</Header>
 				<Content>{children}</Content>
 			</Card>

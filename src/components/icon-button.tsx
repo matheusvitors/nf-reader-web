@@ -8,7 +8,6 @@ interface IconButtonProps extends I.IconProps {
 	hoverColor?: string;
 }
 
-
 export const IconButton: React.FC<IconButtonProps> = ({ Icon, onPress, color, hoverColor, ...props }) => {
 	const [isHovered, setIsHovered] = useState(false);
 

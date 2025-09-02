@@ -1,8 +1,8 @@
 import { DefaultTheme } from "styled-components"
 
-const primary = '#220081ff'
+const primary = '#0030b4ff'
 const secondary = '#D9ED92'
-const accent = '#93938C'
+const accent = '#94b9f1ff'
 const black = '#141414'
 const white = '#fcfcfc'
 

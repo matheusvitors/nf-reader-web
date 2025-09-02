@@ -14,7 +14,7 @@ export const HomePage: React.FC = () => {
 	const { theme: systemTheme, changeTheme } = useSystemTheme();
 	const theme = useTheme();
 		const {
-		data: notasFiscais,
+		data,
 		isFetching,
 		error
 	} = useQuery<NotaFiscal[]>({
@@ -24,10 +24,17 @@ export const HomePage: React.FC = () => {
 
 	const [editing, setEditing] = useState(false);
 	const [selectedNotaFiscal, setselectedNotaFiscal] = useState<NotaFiscal | null>(null);
+	const [notasFiscais, setNotasFiscais] = useState<NotaFiscal[]>([]);
+	const [finalizadas, setFinalizadas] = useState<NotaFiscal[]>([])
 
 	useEffect(() => {
 		error && Notify.failure(error?.message);
 	}, [error])
+
+	useEffect(() => {
+		data && setFinalizadas(data.filter(nf => nf.check === true))
+		data && setNotasFiscais(data.filter(nf => nf.check === false))
+	}, [data])
 
 	const iconProps = {
 		size: 30
@@ -48,6 +55,10 @@ export const HomePage: React.FC = () => {
 			<Content>
 				{isFetching && <PageLoading visible={isFetching} />}
 				{!isFetching && notasFiscais && notasFiscais.length > 0 && notasFiscais.map(notafiscal => <ItemList item={notafiscal} key={notafiscal.id} setEditing={setEditing} setSelected={setselectedNotaFiscal}  />)}
+
+				{!isFetching && finalizadas && finalizadas.length > 0 && <Divider><DividerLine /><DividerTitle>Finalizados</DividerTitle><DividerLine /></Divider>}
+
+				{!isFetching && finalizadas && finalizadas.length > 0 && finalizadas.map(notafiscal => <ItemList item={notafiscal} key={notafiscal.id} setEditing={setEditing} setSelected={setselectedNotaFiscal}  />)}
 			</Content>
 			{selectedNotaFiscal && editing && <Edicao notaFiscal={selectedNotaFiscal} setIsVisible={setEditing} /> }
 		</Container>
@@ -111,3 +122,31 @@ const Content = styled.div`
 	width: 100%;
 	height: 92vh;
 `;
+
+const Divider = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+
+	width: 75%;
+	height: 20px;
+`
+
+const DividerTitle = styled.span`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	width: 20%;
+
+	color: #bdbdbd;
+`
+
+const DividerLine = styled.div`
+	width: 75%;
+	height: 2px;
+	background-color: #bdbdbd;
+
+	width: 40%;
+`
