@@ -62,7 +62,7 @@ export const ItemList: React.FC<ItemListProps> = ({ item, setEditing, setSelecte
 			<Informations>
 				<Info>{invertData(item.data)}</Info>
 				<Info>{item.description && item.description.length > 30 ? item.description.slice(0, 30) + '...' : item.description}</Info>
-				<Info>{item.link && item.link.length > 60 ? item.link.slice(0, 60) + '...' : item.link}</Info>
+				<Info><a href={item.link} target='_blank'>{item.link && item.link.length > 60 ? item.link.slice(0, 60) + '...' : item.link}</a></Info>
 			</Informations>
 			<Actions>
 				<IconButton Icon={item.check ? XIcon : CheckFatIcon} size={26} hoverColor={theme.colors.success} onPress={onCheck}/>
